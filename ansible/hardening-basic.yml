@@ -1,0 +1,16 @@
+---
+- name: Basic Linux SSH and firewall baseline
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure UFW is installed
+      package:
+        name: ufw
+        state: present
+
+    - name: Allow SSH traffic before enabling UFW
+      community.general.ufw:
+        rule: allow
+        port: "22"
+        proto: tcp
+      ignore_errors: true
